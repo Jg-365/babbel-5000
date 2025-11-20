@@ -33,7 +33,8 @@ class ChatResponse(BaseModel):
 
 class TTSRequest(BaseModel):
     text: str
-    lang: str = Field(..., regex="^(de|en|es|pt)$")
+    # pydantic v2 removed `regex` kwarg; use `pattern` instead
+    lang: str = Field(..., pattern="^(de|en|es|pt)$")
     voice: str = Field("default", description="Voice profile name")
     trace_id: Optional[str] = None
 
