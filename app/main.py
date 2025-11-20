@@ -1,6 +1,9 @@
+from pathlib import Path
+
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.models.payloads import ChatRequest, HealthStatus, TTSRequest, TranscribeRequest
 from app.services.asr import ASRService
@@ -27,6 +30,15 @@ llm_service = LLMService(metrics=metrics, logger=logger)
 tts_service = TTSService(metrics=metrics, logger=logger)
 context_memory = ContextMemory()
 
+frontend_dir = Path(__file__).parent.parent / "frontend"
+if frontend_dir.exists():
+    app.mount("/ui", StaticFiles(directory=frontend_dir, html=True), name="ui")
+
+
+@app.get("/ui")
+async def ui_root():
+    """Ensure /ui without trailing slash serves the SPA index."""
+    return RedirectResponse(url="/ui/")
 
 @app.post("/transcribe")
 async def transcribe(request: TranscribeRequest):

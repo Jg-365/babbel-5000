@@ -10,8 +10,16 @@ Implementação inicial de um agente de voz multilíngue totalmente open-source 
 ## Como executar
 ```bash
 pip install -r requirements.txt
+# Linux/macOS
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+# Windows (quando o executável uvicorn não estiver no PATH)
+python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
+
+### Interface Web
+- Acesse http://127.0.0.1:8000/ui/ (ou http://127.0.0.1:8000/ui) para abrir o playground responsivo.
+- A UI é mobile-first, solicita acesso ao microfone para voz ↔ voz e usa o mesmo host dos endpoints.
+- Use o seletor de idioma para travar DE/EN/ES/PT ou deixe "Auto" para detecção automática.
 
 ## Endpoints principais
 - `POST /transcribe`: recebe áudio base64 e retorna texto + idioma detectado.
