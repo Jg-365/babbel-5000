@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Open Voice Agent UI</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="shell">
+    <div class="brand">
+      <div class="logo">VA</div>
+      <div>
+        <p class="eyebrow">Open Voice Agent</p>
+        <h1>Multilingual Voice Playground</h1>
+        <p class="lede">Test ASR, chat, TTS, and streaming in one modern, mobile-first interface.</p>
+      </div>
+    </div>
+    <div class="status">
+      <div id="health-indicator" class="pill pill-warn">Checking health…</div>
+      <div class="pill">Session <span id="session-id"></span></div>
+    </div>
+  </header>
+
+  <main class="grid shell">
+    <section class="card span-2">
+      <div class="card-header">
+        <div>
+          <p class="eyebrow">Conversation</p>
+          <h2>Ask by voice or text</h2>
+        </div>
+        <div class="controls">
+          <label class="field">
+            <span>Language</span>
+            <select id="lang-select">
+              <option value="auto">Auto</option>
+              <option value="en">English</option>
+              <option value="de">Deutsch</option>
+              <option value="es">Español</option>
+              <option value="pt">Português</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Voice</span>
+            <select id="voice-select">
+              <option value="default">Default</option>
+              <option value="bright">Bright</option>
+              <option value="warm">Warm</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div id="transcript" class="transcript" aria-live="polite"></div>
+
+      <div class="composer">
+        <textarea id="text-input" rows="2" placeholder="Type your prompt or dictate via microphone…"></textarea>
+        <div class="composer-actions">
+          <button id="record-btn" class="btn btn-ghost">🎤 Hold to record</button>
+          <button id="send-btn" class="btn btn-primary">Send</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <p class="eyebrow">Streaming</p>
+          <h2>Full duplex voice</h2>
+        </div>
+        <div class="controls">
+          <button id="stream-toggle" class="btn btn-secondary">Start stream</button>
+        </div>
+      </div>
+      <div class="stream-status" id="stream-status">Waiting to connect…</div>
+      <div class="timeline" id="timeline"></div>
+    </section>
+
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <p class="eyebrow">System</p>
+          <h2>Metrics & Logs</h2>
+        </div>
+      </div>
+      <div class="metrics">
+        <div class="metric"><span>ASR</span><strong id="metric-asr">—</strong></div>
+        <div class="metric"><span>LLM</span><strong id="metric-llm">—</strong></div>
+        <div class="metric"><span>TTS</span><strong id="metric-tts">—</strong></div>
+      </div>
+      <pre id="log" class="log" aria-live="polite"></pre>
+    </section>
+  </main>
+
+  <footer class="shell footer">
+    <p>Built for local, offline-friendly voice AI prototyping. Works best in Chrome/Edge with microphone enabled.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

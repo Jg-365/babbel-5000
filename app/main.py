@@ -1,6 +1,9 @@
+from pathlib import Path
+
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.models.payloads import ChatRequest, HealthStatus, TTSRequest, TranscribeRequest
 from app.services.asr import ASRService
@@ -26,6 +29,10 @@ asr_service = ASRService(metrics=metrics, logger=logger)
 llm_service = LLMService(metrics=metrics, logger=logger)
 tts_service = TTSService(metrics=metrics, logger=logger)
 context_memory = ContextMemory()
+
+frontend_dir = Path(__file__).parent.parent / "frontend"
+if frontend_dir.exists():
+    app.mount("/ui", StaticFiles(directory=frontend_dir, html=True), name="ui")
 
 
 @app.post("/transcribe")
